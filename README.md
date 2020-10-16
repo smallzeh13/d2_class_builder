@@ -1,6 +1,4 @@
-# d2_class_builder
-
-Destiny 2 app - class builder
+## Destiny 2 app - class builder
 
 # Overview
 
