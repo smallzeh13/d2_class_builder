@@ -38,11 +38,12 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.d2_class_builder"
-        minSdkVersion 16
+        applicationId "com.kismet.d2_class_builder"
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.kismet.d2_class_builder']
     }
 
     buildTypes {
