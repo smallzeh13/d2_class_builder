@@ -4,7 +4,6 @@ import 'package:d2_class_builder/ui/landing.dart';
 
 void main() => runApp(MaterialApp(
       theme: ThemeData(fontFamily: 'Futurist'),
-      //initialRoute: '/landing',
       routes: {
         '/': (context) => Login(),
         '/landing': (context) => Landing(),

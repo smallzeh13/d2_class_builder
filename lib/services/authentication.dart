@@ -31,6 +31,8 @@ class Authentication {
 
     linkStreamSubscription = _stream.listen((link) {
       Uri uri = Uri.parse(link);
+
+      print(uri);
       if (uri.queryParameters.containsKey("code") ||
           uri.queryParameters.containsKey("error")) {
         closeWebView();
@@ -48,8 +50,8 @@ class Authentication {
           completer.completeError(e, stack);
         }
       }
-      print(completer.future);
     });
+    return completer.future;
   }
 }
 
