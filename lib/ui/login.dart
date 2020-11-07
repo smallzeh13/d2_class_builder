@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:d2_class_builder/services/authentication.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -8,6 +7,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  Authentication instance = Authentication();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,12 +59,9 @@ class _LoginState extends State<Login> {
               child: SizedBox(
                 width: double.infinity,
                 child: RaisedButton(
-                  onPressed: () {
-                    Authentication instance = Authentication();
-
-                    setState(() {
-                      instance.authorize();
-                    });
+                  onPressed: () async {
+                    dynamic token = await instance.authorize();
+                    Navigator.pushNamed(context, '/landing', arguments: token);
                   },
                   child: Text('Authenticate'),
                   color: Colors.grey,

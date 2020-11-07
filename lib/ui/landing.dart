@@ -6,12 +6,14 @@ class Landing extends StatefulWidget {
 }
 
 class _LandingState extends State<Landing> {
+  String data = '';
   @override
   Widget build(BuildContext context) {
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        child: Text('some place holder'),
+        child: Text(data),
       ),
     );
   }
