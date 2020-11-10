@@ -49,21 +49,24 @@ class OAuth {
         completer.complete(errorType);
       }
     });
-    linkStreamSubscription.cancel();
     return completer.future;
   }
 
-  static Future<Response> getToken(authCode) async {
+  static Future<String> getToken(authCode) async {
+    var client = Client();
     String url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
     try {
-      return post(url,
+      var response = await client.post(url,
           headers: <String, String>{
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           body:
               'client_id=$OAUTH_CLIENT_ID&grant_type=authorization_code&code=$authCode');
+      return response.body;
     } catch (error) {
       return error;
+    } finally {
+      client.close();
     }
   }
 

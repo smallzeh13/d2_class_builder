@@ -7,7 +7,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  Authentication instance = Authentication();
+  //Authentication oauth = Authentication();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,7 @@ class _LoginState extends State<Login> {
                 width: double.infinity,
                 child: RaisedButton(
                   onPressed: () async {
-                    dynamic token = await instance.authorize();
+                    dynamic token = await Authentication.authorize();
                     Navigator.pushNamed(context, '/landing', arguments: token);
                   },
                   child: Text('Authenticate'),
