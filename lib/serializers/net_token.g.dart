@@ -8,20 +8,20 @@ part of 'net_token.dart';
 
 NetToken _$NetTokenFromJson(Map<String, dynamic> json) {
   return NetToken(
-    accessToken: json['accessToken'] as String,
-    authToken: json['authToken'] as String,
-  )
-    ..epriresIn = json['epriresIn'] as String
-    ..refreshToken = json['refreshToken'] as String
-    ..refreshExpiresIn = json['refreshExpiresIn'] as String
-    ..membershipId = json['membershipId'] as String;
+    accessToken: json['access_token'] as String,
+    tokenType: json['token_type'] as String,
+    expiresIn: json['expires_in'] as int,
+    membershipId: json['membership_id'] as String,
+    refreshToken: json['refresh_token'] as String,
+    refreshExpiresIn: json['refresh_expires_in'] as int,
+  );
 }
 
 Map<String, dynamic> _$NetTokenToJson(NetToken instance) => <String, dynamic>{
-      'authToken': instance.authToken,
-      'accessToken': instance.accessToken,
-      'epriresIn': instance.epriresIn,
-      'refreshToken': instance.refreshToken,
-      'refreshExpiresIn': instance.refreshExpiresIn,
-      'membershipId': instance.membershipId,
+      'access_token': instance.accessToken,
+      'token_type': instance.tokenType,
+      'expires_in': instance.expiresIn,
+      'membership_id': instance.membershipId,
+      'refresh_token': instance.refreshToken,
+      'refresh_expires_in': instance.refreshExpiresIn,
     };

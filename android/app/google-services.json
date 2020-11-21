@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "206987093346",
+    "firebase_url": "https://d2-class-builder.firebaseio.com",
+    "project_id": "d2-class-builder",
+    "storage_bucket": "d2-class-builder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206987093346:android:8b94bd3a6d4968f694f83b",
+        "android_client_info": {
+          "package_name": "com.kismet.d2classbuilder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206987093346-rnh6dj4kl757ogngnieonav262oes0lg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH5w9he-HSkH7VaCBaV-2Jl5-LUM98_F8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206987093346-rnh6dj4kl757ogngnieonav262oes0lg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

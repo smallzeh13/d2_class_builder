@@ -1,15 +1,10 @@
-import 'dart:convert';
-
+import 'package:d2_class_builder/helpers/remote_config.dart';
 import 'package:http/http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:uni_links/uni_links.dart';
-
-const String OAUTH_CLIENT_ID = '34470';
-//const String OAUTH_AUTH_URL = 'https://www.bungie.net/';
-const String OAUTH_REDIRECT_URI = 'com.kismet.d2classbuilder://oauth';
 
 class OAuth {
   static void openOAuth(OAuthBrowser browser, String clientId,
@@ -23,8 +18,10 @@ class OAuth {
   }
 
   static Future<String> getAuthCode() async {
+    var config = new D2RemoteConfig();
+    await config.init();
     var browser = BungieAuthBrowser();
-    openOAuth(browser, OAUTH_CLIENT_ID, true);
+    openOAuth(browser, config.oAuthClientId, true);
 
     StreamSubscription<String> linkStreamSubscription;
     Stream<String> _stream = getLinksStream();
@@ -52,25 +49,46 @@ class OAuth {
     return completer.future;
   }
 
-  static Future<String> getToken(authCode) async {
+  static Future<String> getToken(authCode, [bool isrefresh]) async {
+    var config = new D2RemoteConfig();
+    await config.init();
     var client = Client();
     String url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
-    try {
-      var response = await client.post(url,
-          headers: <String, String>{
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body:
-              'client_id=$OAUTH_CLIENT_ID&grant_type=authorization_code&code=$authCode');
-      return response.body;
-    } catch (error) {
-      return error;
-    } finally {
-      client.close();
+    String body;
+    var response = await client.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body:
+            'client_id=${config.oAuthClientId}&client_secret=${config.oAuthClientSecret}&grant_type=authorization_code&code=$authCode');
+    if (response.statusCode == 200) {
+      body = response.body;
+    } else {
+      throw OAuthException(response.statusCode, response.body);
     }
+    return body;
   }
 
-  static Future<String> refreshToken(token) {}
+  // i dont like how i duplicated code here, will need a rework but it is easir to read in parent class
+  static Future<String> refreshToken(refreshToken) async {
+    var config = new D2RemoteConfig();
+    await config.init();
+    var client = Client();
+    String url = 'https://www.bungie.net/Platform/App/OAuth/Token/';
+    String body;
+    var response = await client.post(url,
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body:
+            'client_id=${config.oAuthClientId}&client_secret=${config.oAuthClientSecret}&&refresh_token=$refreshToken&grant_type=refresh_token');
+    if (response.statusCode == 200) {
+      body = response.body;
+    } else {
+      throw OAuthException(response.statusCode, response.body);
+    }
+    return body;
+  }
 }
 
 abstract class OAuthBrowser {
@@ -86,5 +104,15 @@ class BungieAuthBrowser implements OAuthBrowser {
     } else {
       await launch(url, forceSafariVC: true);
     }
+  }
+}
+
+class OAuthException implements Exception {
+  OAuthException(this.error, [this.errorDescription]);
+
+  final dynamic error;
+  final String errorDescription;
+  String toString() {
+    return '$error : $errorDescription';
   }
 }
